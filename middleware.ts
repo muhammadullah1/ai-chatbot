@@ -1,7 +1,14 @@
-export const config = {
-  matcher: ['/', '/:id', '/api/:path*', '/login', '/register', '/api/test'],
-}
+import { NextResponse } from 'next/server';
 
-export function middleware(req: { nextUrl: { pathname: any } }) {
-  console.log('Request Path:', req.nextUrl.pathname)
+export function middleware(req: Request) {
+  const res = NextResponse.next();
+
+  res.headers.set('Access-Control-Allow-Origin', '*');
+  res.headers.set('Access-Control-Allow-Methods', 'POST');
+  res.headers.set(
+    'Access-Control-Allow-Headers',
+    'Content-Type, Authorization',
+  );
+
+  return res;
 }

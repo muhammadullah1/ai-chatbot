@@ -1,9 +1,8 @@
-'use client'
+'use client';
 
-import { SidebarToggle } from '@/components/sidebar-toggle'
-import { useSidebar } from './ui/sidebar'
-import { memo } from 'react'
-import { VisibilityType } from './visibility-selector'
+import { SidebarToggle } from '@/components/sidebar-toggle';
+import { memo } from 'react';
+import type { VisibilityType } from './visibility-selector';
 
 function PureChatHeader({
   chatId,
@@ -11,19 +10,18 @@ function PureChatHeader({
   selectedVisibilityType,
   isReadonly,
 }: {
-  chatId: string
-  selectedModelId: string
-  selectedVisibilityType: VisibilityType
-  isReadonly: boolean
+  chatId: string;
+  selectedModelId: string;
+  selectedVisibilityType: VisibilityType;
+  isReadonly: boolean;
 }) {
-
   return (
-    <header className='flex sticky top-0 bg-background py-1.5 items-center px-2 md:px-2 gap-2'>
+    <header className="flex sticky top-0 bg-background py-1.5 items-center px-2 md:px-2 gap-2">
       <SidebarToggle />
     </header>
-  )
+  );
 }
 
 export const ChatHeader = memo(PureChatHeader, (prevProps, nextProps) => {
-  return prevProps.selectedModelId === nextProps.selectedModelId
-})
+  return prevProps.selectedModelId === nextProps.selectedModelId;
+});

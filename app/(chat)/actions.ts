@@ -1,25 +1,25 @@
-'use server'
+'use server';
 
-import { type CoreUserMessage, generateText } from 'ai'
-import { cookies } from 'next/headers'
+import { type CoreUserMessage, generateText } from 'ai';
+import { cookies } from 'next/headers';
 
-import { customModel } from '@/lib/ai'
+import { customModel } from '@/lib/ai';
 import {
   deleteMessagesByChatIdAfterTimestamp,
   getMessageById,
   updateChatVisiblityById,
-} from '@/lib/db/queries'
-import { VisibilityType } from '@/components/visibility-selector'
+} from '@/lib/db/queries';
+import type { VisibilityType } from '@/components/visibility-selector';
 
 export async function saveModelId(model: string) {
-  const cookieStore = await cookies()
-  cookieStore.set('model-id', model)
+  const cookieStore = await cookies();
+  cookieStore.set('model-id', model);
 }
 
 export async function generateTitleFromUserMessage({
   message,
 }: {
-  message: CoreUserMessage
+  message: CoreUserMessage;
 }) {
   const { text: title } = await generateText({
     model: customModel('gpt-4o-mini'),
@@ -29,26 +29,26 @@ export async function generateTitleFromUserMessage({
     - the title should be a summary of the user's message
     - do not use quotes or colons`,
     prompt: JSON.stringify(message),
-  })
+  });
 
-  return title
+  return title;
 }
 
 export async function deleteTrailingMessages({ id }: { id: string }) {
-  const [message] = await getMessageById({ id })
+  const [message] = await getMessageById({ id });
 
   await deleteMessagesByChatIdAfterTimestamp({
     chatId: message.chatId,
     timestamp: message.createdAt,
-  })
+  });
 }
 
 export async function updateChatVisibility({
   chatId,
   visibility,
 }: {
-  chatId: string
-  visibility: VisibilityType
+  chatId: string;
+  visibility: VisibilityType;
 }) {
-  await updateChatVisiblityById({ chatId, visibility })
+  await updateChatVisiblityById({ chatId, visibility });
 }
